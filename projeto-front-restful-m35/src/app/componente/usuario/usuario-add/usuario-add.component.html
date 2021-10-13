@@ -1,0 +1,100 @@
+<br>
+<h3>Cadastro de Usuário</h3>
+
+<form #formValidate="ngForm">
+
+    <div class="form-row">
+        <div class="form-group col-md-1">
+            <label for="id">ID</label>
+            <input type="text" id="id" name="id" [(ngModel)]="user.id" class="form-control" readonly="true" autocomplete="false">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-8">
+            <label for="nome">Nome</label>
+            <span style="color: red; font-size: 23px;" *ngIf="nomeValidate.invalid" > *</span>
+            <input type="text" id="nome" name="nome" #nomeValidate="ngModel" [(ngModel)]="user.nome" class="form-control" required="true" autocomplete="false">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="dataNascimento">Data de Nascimento</label>
+            <span style="color: red; font-size: 23px;"> *</span>
+            <div class="input-group">
+                <input type="text" class="form-control" required="true" autocomplete="false" placeholder="dd/mm/yyyy" id="dataNascimento" name="dataNascimento"
+                       [(ngModel)]="user.dataNascimento" ngbDatepicker #dataNascimento="ngbDatepicker" #dataNascimentoValidate="ngModel">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" (click)="dataNascimento.toggle()" type="button" ></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="login">Login</label>
+            <span style="color: red; font-size: 23px;" *ngIf="loginValidate.invalid" > *</span>
+            <input type="text" id="login" name="login" #loginValidate="ngModel" [(ngModel)]="user.login" class="form-control" required="true" autocomplete="false">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="nome">Senha</label>
+            <span style="color: red; font-size: 23px;" *ngIf="senhaValidate.invalid" > *</span>
+            <input type="password" id="senha" name="senha" #senhaValidate="ngModel" [(ngModel)]="user.senha" class="form-control" required="true" autocomplete="false">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="profissao">Profissão</label>
+            <span style="color: red; font-size: 23px;" *ngIf="profissaoValidate.invalid"> *</span>
+            <select [(ngModel)]="user.profissao.id" id="profissao" name="profissao" #profissaoValidate="ngModel" class="form-control" required="true">
+                  <option [ngValue]="p.id" *ngFor="let p of profissoes">{{p.descricao}}</option>  
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="salario">Salário</label>
+            <span style="color: red; font-size: 23px;" *ngIf="salarioValidate.invalid"> *</span>
+            <input id="salario" name="salario" #salarioValidate="ngModel" class="form-control" required="true"
+                    [(ngModel)]="user.salario" currencyMask [options]="{prefix : 'R$', thousands: '.', decimal : ','}" >
+        </div>
+    </div>
+
+    <br>
+    <div class="card text-center">
+        <div class="card-header">
+            Adicionar Telefone
+        </div>
+        <div class="card-body" style="padding-left: 1px;">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <input type="text" class="form-control" [(ngModel)]="telefone.tipo" id="tipo" name="tipo" placeholder="Tipo do Número">
+                </div>
+                <div class="form-group col-md-4">
+                    <input  type="text" class="form-control" [(ngModel)]="telefone.numero" id="numero" name="numero" placeholder="Número do Telefone">
+                </div>
+                <div class="form-group col-md-3"> 
+                    <button class="btn btn-primary" (click)="addFone()" >Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- Exibindo Lista de Telefones do Usuário --> 
+    <table class="table table-striped">
+        <h6>Telefones do usuário</h6>
+        <tbody>
+
+            <tr *ngFor="let fone of user.telefones; let i = index">
+                 <td>{{fone.id}}</td>
+                 <td>{{fone.tipo}}</td>
+                 <td>{{fone.numero}}</td>
+                 <td><button class="btn btn-danger" (click)="excluirTelefone(fone.id,i)">Excluir</button></td>   
+            </tr>
+
+        </tbody>
+
+    </table>
+     
+    <button type="button" [routerLink]="['/usuarioList']" class="btn btn-primary">Voltar</button>
+    <button type="button" (click) = "novo()" class="btn btn-primary" style="margin-left: 5px;">Novo</button>
+    <button type="button" (click) = "salvarUsuario()"  [disabled]="formValidate.invalid" class="btn btn-primary" style="margin-left: 5px;">Salvar</button>
+
+</form>

@@ -1,0 +1,56 @@
+<br>
+<h3>Ralatório de Usuário por Intervalo de Datas de Nascimento</h3>
+
+<form #formValidate="ngForm">
+
+    <div class="form-row">
+    
+        <div class="form-group col-md-4">
+            <label for="dataNascimento">Data de Nascimento Inicio</label>
+            <span style="color: red; font-size: 23px;"> *</span>
+            <div class="input-group">
+                <input type="text" class="form-control" required="true" autocomplete="false" placeholder="dd-mm-yyyy" id="dataInicio" name="dataInicio"
+                       [(ngModel)]="dataIni" ngbDatepicker #dataInicio="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" (click)="dataInicio.toggle()" type="button" ></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="dataNascimento">Data de Nascimento Fim</label>
+            <span style="color: red; font-size: 23px;"> *</span>
+            <div class="input-group">
+                <input type="text" class="form-control" required="true" autocomplete="false" placeholder="dd-mm-yyyy" id="dataFinal" name="dataFinal"
+                       [(ngModel)]="dataFin" ngbDatepicker #dataFinal="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" (click)="dataFinal.toggle()" type="button" ></button>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+ 
+    <button type="button" [routerLink]="['/usuarioList']" class="btn btn-primary">Voltar</button>
+    
+    <!-- Botão para o Modal - PDF -->
+    <button type="button" (click) = "downloadRelatorioPdfComParametro()" class="btn btn-primary" style="margin-left: 5px;"
+            data-toggle="modal" data-target="#myModal">Download PDF</button>
+</form>
+
+<!-- Construção do modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 90%; min-height: 90%; height: 90%;">
+      <div class="modal-content">
+        <div class="modal-body">
+          
+            <iframe id="pdf" width="100%" height="500" frameborder="0" allowtransparency="true"></iframe>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+</div>

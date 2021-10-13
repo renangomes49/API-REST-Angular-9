@@ -1,0 +1,63 @@
+<br>
+<form class="form-inline">
+    
+    <div class="form-group mx-sm-3 mb-2">
+      <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="nome" placeholder="Pesquisa por nome">
+    </div>
+    <button type="button" (click) = "consultarUsuariosPornome()" class="btn btn-primary mb-2">Buscar</button>
+    <button type="button" [routerLink]="['/usuarioAdd']" routerLinkActive="routerLinkActive" class="btn btn-primary mb-2" style="margin-left: 5px;">Cadastrar Usuário</button>
+
+    <!-- Botão para o Modal - PDF -->
+    <button  (click)="downloadPdfRelatorio()" type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary mb-2"
+            style="margin-left: 5px;">PDF</button>
+
+</form>
+
+<table class="table table-striped"> 
+
+    <thead>
+        <th>Id</th>
+        <th>Login</th>
+        <th>Nome</th>
+        <th>Excluir Usuário</th>
+        <th>Editar Usuário</th>
+    </thead>
+
+    <tbody>
+        <!-- paginate:{itemsPerPage:5, currentPage: p => comando para carregar 5 usuários por página -->
+        <!-- let i = index => passando o indice da linha da tabela de usuarios. -->    
+        <tr *ngFor="let usuario of usuarios | paginate:{ itemsPerPage: 5, currentPage: paginaAtual, totalItems : total }; let i = index">
+            <th scope="row">{{usuario.id}}</th>
+            <td>{{usuario.login}}</td>
+            <td>{{usuario.nome}}</td>
+            <td><button (click) = "deletarUsuario(usuario.id, i)" class="btn btn-danger">Excluir</button></td>
+
+            <!-- Rota para a tela de cadastro passando o Id do usuário que vai ser editado-->
+            <td><button [routerLink]="['/usuarioAdd', usuario.id]" routerLinkActive="routerLinkActive" class="btn btn-danger">Editar</button></td>
+        </tr>
+    </tbody>
+
+</table>
+
+<div class="text-center">  
+    <pagination-controls (pageChange)="carregarPagina(paginaAtual = $event)" previousLabel="Voltar" nextLabel="Avançar" responsive="true">
+
+    </pagination-controls>
+</div>
+
+<!-- Construção do modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 90%; min-height: 90%; height: 90%;">
+      <div class="modal-content">
+        <div class="modal-body">
+          
+            <iframe id="pdf" width="100%" height="500" frameborder="0" allowtransparency="true"></iframe>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+</div>
